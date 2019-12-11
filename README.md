@@ -1,4 +1,6 @@
-# Welcome to GitHub Pages
+# JEM - Joint Energy Models
+
+Code for the paper [Your Classifier is Secretly an Energy Based Model and You Should Treat it Like One](https://arxiv.org/abs/1912.03263).
 
 You can use the [editor on GitHub](https://github.com/wgrathwohl/JEM/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
