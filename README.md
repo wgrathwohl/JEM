@@ -2,7 +2,7 @@
 
 Code for the paper [Your Classifier is Secretly an Energy Based Model and You Should Treat it Like One](https://arxiv.org/abs/1912.03263).
 
-We show that architectures traditionally used for classification can be reinterpreted as energy based models of the joint distribution over data and labels p(x, y). ![figs/calib.png]
+We show that architectures traditionally used for classification can be reinterpreted as energy based models of the joint distribution over data and labels p(x, y). ![calibration plots](figs/calib.png)
 
 ### Abstract
 
