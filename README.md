@@ -2,7 +2,7 @@
 
 Official code for the paper [Your Classifier is Secretly an Energy Based Model and You Should Treat it Like One](https://arxiv.org/abs/1912.03263).
 
-[JEM](figs/JEM.png)
+![JEM](figs/JEM.png)
 
 Includes scripts for training JEM (Joint-Energy Model), evaluating models at various tasks, and running adversarial attacks.
 
