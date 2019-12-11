@@ -6,12 +6,16 @@ We show that architectures traditionally used for classification can be reinterp
 
 Training models in this way has many benifits including:
 
-Improved calibration:
+### Improved calibration
 ![calibration plots](figs/calib.png)
 
-### Abstract
+### Out-Of-Distribution Detection
+![calibration plots](figs/ood.png)
 
-We propose to reinterpret a standard discriminative classifier of p(y|x) as an energy based model for the joint distribution p(x,y). In this setting, the standard class probabilities can be easily computed as well as unnormalized values of p(x) and p(x|y). Within this framework, standard discriminative architectures may beused and the model can also be trained on unlabeled data. We demonstrate that energy based training of the joint distribution improves calibration, robustness, andout-of-distribution detection while also enabling our models to generate samplesrivaling the quality of recent GAN approaches. We improve upon recently proposed techniques for scaling up the training of energy based models and presentan approach which adds little overhead compared to standard classification training. Our approach is the first to achieve performance rivaling the state-of-the-artin both generative and discriminative learning within one hybrid model.
+### Adversarial Robustness
+![calibration plots](figs/distal.png)
+
+
 
 ### Markdown
 
