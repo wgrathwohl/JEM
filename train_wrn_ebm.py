@@ -238,17 +238,6 @@ def get_sample_q(args, device):
     return sample_q
 
 
-def refine(x, f, n_steps):
-    x_k = t.autograd.Variable(x, requires_grad=True)
-    # sgld
-    for k in range(n_steps):
-        f_prime = t.autograd.grad(f(x_k).sum(), [x_k], retain_graph=True)[0]
-        x_k.data += args.sgld_lr * f_prime + args.sgld_std * t.randn_like(x_k)
-    f.train()
-    final_samples = x_k.detach()
-    return final_samples
-
-
 def eval_classification(f, dload, device):
     corrects, losses = [], []
     for x_p_d, y_p_d in dload:
@@ -271,11 +260,6 @@ def checkpoint(f, buffer, tag, args, device):
     }
     t.save(ckpt_dict, os.path.join(args.save_dir, tag))
     f.to(device)
-
-
-def entropy_loss(ul_y):
-    p = tnnF.softmax(ul_y, dim=1)
-    return -(p*tnnF.log_softmax(ul_y, dim=1)).sum(dim=1).mean(dim=0)
 
 
 def main(args):

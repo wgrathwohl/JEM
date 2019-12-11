@@ -279,51 +279,14 @@ def OODAUC(f, args, device):
     print(len(dload_real), len(dload_fake))
     real_scores = []
     print("Real scores...")
-    def sample(x, n_steps=args.n_steps):
-        x_k = t.autograd.Variable(x.clone(), requires_grad=True)
-        # sgld
-        for k in range(n_steps):
-            f_prime = t.autograd.grad(f(x_k).sum(), [x_k], retain_graph=True)[0]
-            x_k.data += f_prime + 1e-2 * t.randn_like(x_k)
-        final_samples = x_k.detach()
-        return final_samples
 
     def score_fn(x):
         if args.score_fn == "px":
             return f(x).detach().cpu()
         elif args.score_fn == "py":
             return nn.Softmax()(f.classify(x)).max(1)[0].detach().cpu()
-        elif args.score_fn == "pxgrad":
-            return -grad_norm(x).detach().cpu()
-        elif args.score_fn == "refine":
-            init_score = f(x)
-            x_r = sample(x)
-            final_score = f(x_r)
-            delta = init_score - final_score
-            return delta.detach().cpu()
-        elif args.score_fn == "refinegrad":
-            init_score = -grad_norm(x).detach()
-            x_r = sample(x)
-            final_score = -grad_norm(x_r).detach()
-            delta = init_score - final_score
-            return delta.detach().cpu()
-        elif args.score_fn == "mcint":
-            n_samps = 10
-            xr = x.repeat_interleave(n_samps, 0)
-            u = t.ones_like(xr).uniform_(-1, 1) / 255
-            with t.no_grad():
-                logp = f(xr + u).view(x.size(0), -1)
-            score = logp.logsumexp(1).detach().cpu() - np.log(n_samps)
-            return score
-        elif args.score_fn == "refinepx":
-            x_r = sample(x)
-            return f(x_r).detach().cpu()
-        elif args.score_fn == "refinel2":
-            x_r = sample(x)
-            norm = (x - x_r).view(x.size(0), -1).norm(p=2, dim=1)
-            return -norm.detach().cpu()
         else:
-            return f.classify(x).max(1)[0].detach().cpu()
+            return -grad_norm(x).detach().cpu()
 
     for x, _ in dload_real:
         x = x.to(device)
@@ -448,7 +411,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Energy Based Models and Shit")
     parser.add_argument("--eval", default="OOD", type=str,
-                        choices=["uncond_samples", "cond_samples", "semicond_samples", "logp_hist", "OOD", "test_clf"])
+                        choices=["uncond_samples", "cond_samples", "logp_hist", "OOD", "test_clf"])
     parser.add_argument("--score_fn", default="px", type=str,
                         choices=["px", "py", "pxgrad"], help="For OODAUC, chooses what score function we use.")
     parser.add_argument("--ood_dataset", default="svhn", type=str,

@@ -69,6 +69,7 @@ parser.add_argument("--end_batch", type=int, default=2)
 parser.add_argument("--sgld_sigma", type=float, default=1e-2)
 parser.add_argument("--n_dup_chains", type=int, default=5)
 parser.add_argument("--sigma", type=float, default=.03)
+parser.add_argument("--base_dir", type=str, default='./adv_results')
 
 # logging
 
@@ -80,7 +81,7 @@ for key in args_.keys():
     print('{}:   {}'.format(key,args_[key]))
 
 
-base_dir = './adv_results'
+base_dir = args.base_dir
 
 save_dir = os.path.join(base_dir, args.exp_name, 'saved_model')
 last_dir = os.path.join(save_dir,'last')
@@ -129,7 +130,7 @@ class F(nn.Module):
 
     def classify(self, x):
         penult_z = self.f(x)
-        return self.class_output(penult_z)#.squeeze()
+        return self.class_output(penult_z)
 
 
 class CCF(F):
@@ -226,11 +227,11 @@ model_wrapped = model_attack_wrapper(model)
 fmodel = foolbox.models.PyTorchModel(model_wrapped, bounds=(0.,1.), num_classes=10, device=device)
 
 if args.distance == 'L2':
-  distance = foolbox.distances.MeanSquaredDistance
-  attack = foolbox.attacks.L2BasicIterativeAttack(model=fmodel, criterion=criterion, distance=distance) 
+    distance = foolbox.distances.MeanSquaredDistance
+    attack = foolbox.attacks.L2BasicIterativeAttack(model=fmodel, criterion=criterion, distance=distance)
 else:
-  distance = foolbox.distances.Linfinity
-  attack = foolbox.attacks.RandomStartProjectedGradientDescentAttack(model=fmodel, criterion=criterion, distance=distance)
+    distance = foolbox.distances.Linfinity
+    attack = foolbox.attacks.RandomStartProjectedGradientDescentAttack(model=fmodel, criterion=criterion, distance=distance)
 
 print('Starting...')
 for i, (img, label) in enumerate(data_loader):
