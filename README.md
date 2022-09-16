@@ -6,7 +6,7 @@ Official code for the paper [Your Classifier is Secretly an Energy Based Model a
 
 Includes scripts for training JEM (Joint-Energy Model), evaluating models at various tasks, and running adversarial attacks.
 
-A pretrained model on CIFAR10 can be found [here](http://www.cs.toronto.edu/~wgrathwohl/CIFAR10_MODEL.pt).
+A pretrained model on CIFAR10 can be found [here](https://www.cs.toronto.edu/~wgrathwohl/CIFAR10_MODEL.pt).
 
 For more info on me and my work please checkout my [website](http://www.cs.toronto.edu/~wgrathwohl/), [twitter](https://twitter.com/wgrathwohl), or [Google Scholar](https://scholar.google.ca/citations?user=ZbClz98AAAAJ&hl=en). 
 
